@@ -16,13 +16,16 @@ ARunnerCharacter::ARunnerCharacter()
 
 	baseWalkMoveSpeed = this->GetCharacterMovement()->MaxWalkSpeed;
 
+	//Boolean for when the player starts sliding so they cant slide forever
+	isSliding = false;
+	SlideTimer = 40.f;
+
 }
 
 // Called when the game starts or when spawned
 void ARunnerCharacter::BeginPlay()
 {
-	Super::BeginPlay();
-	
+	Super::BeginPlay();	
 }
 
 // Called every frame
@@ -30,9 +33,21 @@ void ARunnerCharacter::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
 
+
+	if (isSliding)
+	{
+		SlideTimer--;
+	}
+	if (SlideTimer < 0)
+	{
+		this->GetCharacterMovement()->MaxWalkSpeedCrouched = 300;
+		isSliding = false;
+	}
+
 	GEngine->AddOnScreenDebugMessage(2, 1.f, FColor::Red, FString::Printf(TEXT("%f"), this->GetVelocity().Size()));
 	GEngine->AddOnScreenDebugMessage(1, 1.f, FColor::Red, FString::Printf(TEXT("Braking Friction = %f"), this->GetCharacterMovement()->BrakingFriction));
 	GEngine->AddOnScreenDebugMessage(3, 1.f, FColor::Red, FString::Printf(TEXT("Ground Friction = %f"), this->GetCharacterMovement()->GroundFriction));
+	GEngine->AddOnScreenDebugMessage(4, 1.f, FColor::Green, FString::Printf(TEXT("Slide Timer : %f"), SlideTimer));
 }
 
 // Called to bind functionality to input
@@ -48,14 +63,22 @@ void ARunnerCharacter::SetupPlayerInputComponent(class UInputComponent* InputCom
 void ARunnerCharacter::StartCrouch()
 {
 	this->Crouch();
-	this->CharacterMovement->GroundFriction = 0;
-	this->CharacterMovement->BrakingFriction = 0;
+	if (this->GetVelocity().Size() > 600.f)
+	{
+		isSliding = true;
+		this->GetCharacterMovement()->MaxWalkSpeedCrouched = 600;
+		this->GetCharacterMovement()->GroundFriction = 0;
+		this->GetCharacterMovement()->BrakingFriction = 0;
+	}
 }
 
 void ARunnerCharacter::EndCrouch()
 {
 	this->UnCrouch();
-	this->CharacterMovement->GroundFriction = 8;
-	this->CharacterMovement->BrakingFriction = 0;
+	this->GetCharacterMovement()->MaxWalkSpeedCrouched = 300;
+	this->GetCharacterMovement()->GroundFriction = 8;
+	this->GetCharacterMovement()->BrakingFriction = 0;
+	isSliding = false;
+	SlideTimer = 40.f;
 }
 

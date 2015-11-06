@@ -33,5 +33,8 @@ private:
 	
 	float baseCrouchMoveSpeed;
 	float baseWalkMoveSpeed;
+
+	bool isSliding;
+	float SlideTimer;
 	
 };
