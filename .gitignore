@@ -26,3 +26,11 @@
 *.exe
 *.out
 *.app
+
+# UE4 Specific Ignores
+Savior Game/Intermediate/
+Savior Game/Saved/
+Savior Game/Build/
+Savior Game/*.sdf
+Savior Game/*.sln
+Savior Game/*.v12.suo
