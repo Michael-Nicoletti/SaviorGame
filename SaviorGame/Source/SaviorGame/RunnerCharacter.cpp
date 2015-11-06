@@ -10,9 +10,11 @@ ARunnerCharacter::ARunnerCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	this->CharacterMovement->CanEverCrouch = true;
+	baseCrouchMoveSpeed = this->GetCharacterMovement()->MaxWalkSpeedCrouched;
 
-	this->CharacterMovement->MaxWalkSpeed = 1200;
+	this->GetCharacterMovement()->MaxWalkSpeed = 1200;
+
+	baseWalkMoveSpeed = this->GetCharacterMovement()->MaxWalkSpeed;
 
 }
 
@@ -29,6 +31,8 @@ void ARunnerCharacter::Tick( float DeltaTime )
 	Super::Tick( DeltaTime );
 
 	GEngine->AddOnScreenDebugMessage(2, 1.f, FColor::Red, FString::Printf(TEXT("%f"), this->GetVelocity().Size()));
+	GEngine->AddOnScreenDebugMessage(1, 1.f, FColor::Red, FString::Printf(TEXT("Braking Friction = %f"), this->GetCharacterMovement()->BrakingFriction));
+	GEngine->AddOnScreenDebugMessage(3, 1.f, FColor::Red, FString::Printf(TEXT("Ground Friction = %f"), this->GetCharacterMovement()->GroundFriction));
 }
 
 // Called to bind functionality to input
@@ -44,14 +48,14 @@ void ARunnerCharacter::SetupPlayerInputComponent(class UInputComponent* InputCom
 void ARunnerCharacter::StartCrouch()
 {
 	this->Crouch();
-	if (this->GetVelocity().Size() > 600)
-	{
-		GEngine->AddOnScreenDebugMessage(1, 2.f, FColor::Blue, TEXT("Slide"));
-	}
+	this->CharacterMovement->GroundFriction = 0;
+	this->CharacterMovement->BrakingFriction = 0;
 }
 
 void ARunnerCharacter::EndCrouch()
 {
 	this->UnCrouch();
+	this->CharacterMovement->GroundFriction = 8;
+	this->CharacterMovement->BrakingFriction = 0;
 }
 
