@@ -21,6 +21,10 @@ void AArcherCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	if (DefaultWeaponClass)
+	{
+		EquipWeapon(DefaultWeaponClass);
+	}
 }
 
 // Called every frame
@@ -55,5 +59,6 @@ void AArcherCharacter::EquipWeapon(TSubclassOf<AWeapon> WeaponType)
 	EquippedWeapon = GetWorld()->SpawnActor<AWeapon>(WeaponType, GetActorLocation(), FRotator::ZeroRotator, SpawnParameters);
 
 	//Attaches the eqipped weapon to the right hand within the returned object from GetMesh()
-	//EquippedWeapon->AttachRootComponentTo(Hand, NAME_None, EAttachLocation::SnapToTarget);
+	EquippedWeapon->AttachRootComponentTo(Hand, NAME_None, EAttachLocation::SnapToTarget);
+
 }
