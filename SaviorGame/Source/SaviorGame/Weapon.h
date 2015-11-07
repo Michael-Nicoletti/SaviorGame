@@ -22,6 +22,9 @@ public:
 
 protected:
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		USceneComponent* SceneComp;
+
 	//Adds a capsule collder to the weapon
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		UCapsuleComponent* Collider;

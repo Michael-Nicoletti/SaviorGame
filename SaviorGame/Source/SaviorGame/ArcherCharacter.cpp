@@ -15,7 +15,7 @@ AArcherCharacter::AArcherCharacter()
 	Hand->AttachTo(RootComponent);
 	Hand->RelativeLocation = FVector(100, 0, 0);
 
-	GunOffset = FVector(0.0f, 0.0f, 50.0f);
+	GunOffset = FVector(100.0f, 30.0f, 10.0f);
 	//Fix offset for arrows
 }
 
