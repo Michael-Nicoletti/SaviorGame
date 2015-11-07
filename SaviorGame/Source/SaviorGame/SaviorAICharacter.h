@@ -32,6 +32,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* AIMesh;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Enum)
-		EModeEnum AIMode;
+//	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Enum)
+//		EModeEnum AIMode;
 };
