@@ -24,10 +24,20 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
+	USceneComponent* GetHand();
+
 protected:
 
 	void StartCrouch();
 	void EndCrouch();
+	
+	UFUNCTION()
+	void ActivateButton();
+
+protected:
+	
+	UPROPERTY(EditAnywhere)
+	USceneComponent* Hand;
 
 private:
 	
@@ -38,5 +48,10 @@ private:
 
 	bool isSliding;
 	float SlideTimer;
+	bool HitHead;
+
+private:
+
+	bool TraceFromSelf(FHitResult& OutResult, const float TraceDistance, ECollisionChannel const CollisionChannel);
 	
 };
