@@ -9,7 +9,7 @@ ASaviorGameGameMode::ASaviorGameGameMode()
 	: Super()
 {
 	// set default pawn class to our Blueprinted character
-	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnClassFinder(TEXT("/Game/BP_RunnerCharacter"));
+	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnClassFinder(TEXT("/Game/BP_ArcherCharacter"));
 	DefaultPawnClass = PlayerPawnClassFinder.Class;
 
 	// use our custom HUD class
