@@ -11,6 +11,7 @@ ARunnerCharacter::ARunnerCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 
 	baseCrouchMoveSpeed = this->GetCharacterMovement()->MaxWalkSpeedCrouched;
+	baseBrakeDeceleration = this->GetCharacterMovement()->BrakingDecelerationWalking;
 
 	this->GetCharacterMovement()->MaxWalkSpeed = 1200;
 
@@ -68,6 +69,7 @@ void ARunnerCharacter::StartCrouch()
 		isSliding = true;
 		this->GetCharacterMovement()->MaxWalkSpeedCrouched = 600;
 		this->GetCharacterMovement()->GroundFriction = 0;
+		this->GetCharacterMovement()->BrakingDecelerationWalking = 800;
 		this->GetCharacterMovement()->BrakingFriction = 0;
 	}
 }
@@ -75,9 +77,10 @@ void ARunnerCharacter::StartCrouch()
 void ARunnerCharacter::EndCrouch()
 {
 	this->UnCrouch();
-	this->GetCharacterMovement()->MaxWalkSpeedCrouched = 300;
+	this->GetCharacterMovement()->MaxWalkSpeedCrouched = baseCrouchMoveSpeed;
 	this->GetCharacterMovement()->GroundFriction = 8;
 	this->GetCharacterMovement()->BrakingFriction = 0;
+	this->GetCharacterMovement()->BrakingDecelerationWalking = baseBrakeDeceleration;
 	isSliding = false;
 	SlideTimer = 40.f;
 }
