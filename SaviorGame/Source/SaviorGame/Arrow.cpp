@@ -2,6 +2,7 @@
 
 #include "SaviorGame.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "ArcherCharacter.h"
 #include "Arrow.h"
 
 
@@ -12,13 +13,18 @@ AArrow::AArrow()
 	PrimaryActorTick.bCanEverTick = true;
 
 	CollisionComp = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CapsuleComp"));
-	CollisionComp->SetCapsuleHalfHeight(44.56f);
-	CollisionComp->SetCapsuleRadius(2.446f);
 	CollisionComp->BodyInstance.SetCollisionProfileName("Projectile");
 	CollisionComp->SetWalkableSlopeOverride(FWalkableSlopeOverride(WalkableSlope_Unwalkable, 0.f));
 	CollisionComp->CanCharacterStepUpOn = ECB_No;
 
 	RootComponent = CollisionComp;
+
+	AArcherCharacter* Archer = Cast<AArcherCharacter>(UGameplayStatics::GetPlayerPawn(this, 0));
+	if (Archer)
+	{
+		speedPower = Archer->chargePower;
+	//	GEngine->AddOnScreenDebugMessage(1, 2.f, FColor::Red, FString::Printf(TEXT("%f"), speedPower));
+	}
 
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileComp"));
 	ProjectileMovement->UpdatedComponent = CollisionComp;
@@ -26,6 +32,8 @@ AArrow::AArrow()
 	ProjectileMovement->MaxSpeed = 5000.f;
 	ProjectileMovement->bRotationFollowsVelocity = true;
 	ProjectileMovement->bShouldBounce = false;
+
+	
 }
 
 // Called when the game starts or when spawned

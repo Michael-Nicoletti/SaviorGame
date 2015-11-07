@@ -13,6 +13,7 @@ class SAVIORGAME_API AArrow : public AActor
 	UPROPERTY(EditAnywhere, Category = Projectile)
 	class UCapsuleComponent* CollisionComp;
 
+public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	class UProjectileMovementComponent* ProjectileMovement;
 	
@@ -29,4 +30,8 @@ public:
 	FORCEINLINE class UCapsuleComponent* GetCollisionComp() const { return CollisionComp; }
 
 	FORCEINLINE class UProjectileMovementComponent* GetProjectileMovement() const { return ProjectileMovement; }
+
+private:
+
+	float speedPower;
 };

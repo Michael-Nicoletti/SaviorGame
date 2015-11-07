@@ -4,6 +4,7 @@
 
 #include "GameFramework/Character.h"
 #include "SaviorGameCharacter.h"
+#include "Arrow.h"
 #include "Weapon.h"
 #include "ArcherCharacter.generated.h"
 
@@ -27,11 +28,19 @@ public:
 
 	void EquipWeapon(TSubclassOf<AWeapon> WeaponType);
 
+	bool isWeaponCharging;
+
+	float chargePower;
+
+	float currentChargeTime;
+
+	float maxChargeTime;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	FVector GunOffset;
 
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
-	TSubclassOf<class AArrow> ProjectileClass;
+	TSubclassOf<AArrow> ProjectileClass;
 	
 protected:
 	//Creates a default weapon subclass and then creates a pointer of type our weapon class.
@@ -39,8 +48,18 @@ protected:
 		TSubclassOf<AWeapon> DefaultWeaponClass;
 	AWeapon* EquippedWeapon;
 
+	//AArrow* FiredArrow;
+
 	UPROPERTY(EditAnywhere)
 		USceneComponent* Hand;
 
-	void OnFire();
+	void MouseDown();
+
+	void MouseUp();
+
+	void FOV();
+
+	void FOVNorm();
+
+	void FireBow();
 };
