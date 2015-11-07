@@ -12,6 +12,7 @@ ARunnerCharacter::ARunnerCharacter()
 
 	baseCrouchMoveSpeed = this->GetCharacterMovement()->MaxWalkSpeedCrouched;
 	baseBrakeDeceleration = this->GetCharacterMovement()->BrakingDecelerationWalking;
+	baseCameraPosition = GetFirstPersonCameraComponent()->GetComponentLocation();
 
 	this->GetCharacterMovement()->MaxWalkSpeed = 1200;
 	this->CrouchedEyeHeight = 2;
@@ -49,6 +50,7 @@ void ARunnerCharacter::Tick( float DeltaTime )
 	GEngine->AddOnScreenDebugMessage(2, 1.f, FColor::Red, FString::Printf(TEXT("%f"), this->CrouchedEyeHeight));
 	GEngine->AddOnScreenDebugMessage(1, 1.f, FColor::Red, FString::Printf(TEXT("Braking Friction = %f"), this->GetCharacterMovement()->BrakingFriction));
 	GEngine->AddOnScreenDebugMessage(3, 1.f, FColor::Red, FString::Printf(TEXT("Ground Friction = %f"), this->GetCharacterMovement()->GroundFriction));
+	GEngine->AddOnScreenDebugMessage(5, 1.f, FColor::Red, FString::Printf(TEXT("Ground Friction = %f"), GetFirstPersonCameraComponent()->GetComponentLocation().Z));
 	GEngine->AddOnScreenDebugMessage(4, 1.f, FColor::Green, FString::Printf(TEXT("Slide Timer : %f"), SlideTimer));
 }
 
@@ -64,6 +66,7 @@ void ARunnerCharacter::SetupPlayerInputComponent(class UInputComponent* InputCom
 
 void ARunnerCharacter::StartCrouch()
 {
+	GetFirstPersonCameraComponent()->SetRelativeLocation(FVector(0, 0, 25));
 	this->Crouch();
 	if (this->GetVelocity().Size() > 600.f)
 	{
@@ -82,6 +85,7 @@ void ARunnerCharacter::EndCrouch()
 	this->GetCharacterMovement()->GroundFriction = 8;
 	this->GetCharacterMovement()->BrakingFriction = 0;
 	this->GetCharacterMovement()->BrakingDecelerationWalking = baseBrakeDeceleration;
+	GetFirstPersonCameraComponent()->SetRelativeLocation(FVector(0, 0, 64));
 	isSliding = false;
 	SlideTimer = 40.f;
 }
