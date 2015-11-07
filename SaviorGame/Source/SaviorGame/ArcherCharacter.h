@@ -29,6 +29,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	FVector GunOffset;
+
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+	TSubclassOf<class AArrow> ProjectileClass;
 	
 protected:
 	//Creates a default weapon subclass and then creates a pointer of type our weapon class.
@@ -38,4 +41,6 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 		USceneComponent* Hand;
+
+	void OnFire();
 };

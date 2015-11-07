@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "SaviorGame.h"
+#include "Arrow.h"
 #include "ArcherCharacter.h"
 
 
@@ -14,6 +15,8 @@ AArcherCharacter::AArcherCharacter()
 	Hand->AttachTo(RootComponent);
 	Hand->RelativeLocation = FVector(100, 0, 0);
 
+	GunOffset = FVector(0.0f, 0.0f, 50.0f);
+	//Fix offset for arrows
 }
 
 // Called when the game starts or when spawned
@@ -38,7 +41,27 @@ void AArcherCharacter::Tick( float DeltaTime )
 void AArcherCharacter::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 {
 	Super::SetupPlayerInputComponent(InputComponent);
+	check(InputComponent);
 
+	InputComponent->BindAction("Fire", IE_Pressed, this, &AArcherCharacter::OnFire);
+}
+
+void AArcherCharacter::OnFire()
+{
+	// try and fire a projectile
+	if (ProjectileClass != NULL)
+	{
+		const FRotator SpawnRotation = GetControlRotation();
+		// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
+		const FVector SpawnLocation = GetActorLocation() + SpawnRotation.RotateVector(GunOffset);
+
+		UWorld* const World = GetWorld();
+		if (World != NULL)
+		{
+			// spawn the projectile at the muzzle
+			World->SpawnActor<AArrow>(ProjectileClass, SpawnLocation, SpawnRotation);
+		}
+	}
 }
 
 void AArcherCharacter::EquipWeapon(TSubclassOf<AWeapon> WeaponType)
