@@ -14,8 +14,8 @@ AWeapon::AWeapon()
 	Collider = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Collider"));
 
 	//Creates the root component for things to attach to
-	RootComponent = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Root"));
-
+	SceneComp = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
+	RootComponent = SceneComp;
 	//Sets the mesh component to be a mesh
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 
