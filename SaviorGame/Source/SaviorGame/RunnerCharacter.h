@@ -33,5 +33,10 @@ private:
 	
 	float baseCrouchMoveSpeed;
 	float baseWalkMoveSpeed;
+	float baseBrakeDeceleration;
+	FVector baseCameraPosition;
+
+	bool isSliding;
+	float SlideTimer;
 	
 };

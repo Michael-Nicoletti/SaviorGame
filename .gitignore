@@ -34,3 +34,4 @@ SaviorGame/Build/
 SaviorGame/*.sdf
 SaviorGame/*.sln
 SaviorGame/*.v12.suo
+SaviorGame/Binaries/Win64/UE4Editor-SaviorGame.pdb
