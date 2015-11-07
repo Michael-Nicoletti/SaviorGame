@@ -14,6 +14,7 @@ ARunnerCharacter::ARunnerCharacter()
 	baseBrakeDeceleration = this->GetCharacterMovement()->BrakingDecelerationWalking;
 
 	this->GetCharacterMovement()->MaxWalkSpeed = 1200;
+	this->CrouchedEyeHeight = 2;
 
 	baseWalkMoveSpeed = this->GetCharacterMovement()->MaxWalkSpeed;
 
@@ -45,7 +46,7 @@ void ARunnerCharacter::Tick( float DeltaTime )
 		isSliding = false;
 	}
 
-	GEngine->AddOnScreenDebugMessage(2, 1.f, FColor::Red, FString::Printf(TEXT("%f"), this->GetVelocity().Size()));
+	GEngine->AddOnScreenDebugMessage(2, 1.f, FColor::Red, FString::Printf(TEXT("%f"), this->CrouchedEyeHeight));
 	GEngine->AddOnScreenDebugMessage(1, 1.f, FColor::Red, FString::Printf(TEXT("Braking Friction = %f"), this->GetCharacterMovement()->BrakingFriction));
 	GEngine->AddOnScreenDebugMessage(3, 1.f, FColor::Red, FString::Printf(TEXT("Ground Friction = %f"), this->GetCharacterMovement()->GroundFriction));
 	GEngine->AddOnScreenDebugMessage(4, 1.f, FColor::Green, FString::Printf(TEXT("Slide Timer : %f"), SlideTimer));
