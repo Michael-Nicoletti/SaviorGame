@@ -8,8 +8,17 @@ class ASaviorGameGameMode : public AGameMode
 {
 	GENERATED_BODY()
 
+	ASaviorGameGameMode(const class FObjectInitializer& ObjectInitializer);
+
+	virtual void BeginPlay() override;
+
 public:
-	ASaviorGameGameMode();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UBlueprint* RunnerCharacter;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UBlueprint* ArcherCharacter;
 };
 
 

@@ -13,7 +13,7 @@ class SAVIORGAME_API ARunnerCharacter : public ASaviorGameCharacter
 
 public:
 	// Sets default values for this character's properties
-	ARunnerCharacter();
+	ARunnerCharacter(const class FObjectInitializer& ObjectInitializer);
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -25,6 +25,9 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
 	USceneComponent* GetHand();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	APlayerStart* runnerStart;
 
 protected:
 
