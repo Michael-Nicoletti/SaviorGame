@@ -74,6 +74,9 @@ void ARunnerCharacter::Tick( float DeltaTime )
 void ARunnerCharacter::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 {
 	Super::SetupPlayerInputComponent(InputComponent);
+	InputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
+	InputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
+
 
 	InputComponent->BindAction("UseButton", IE_Pressed, this, &ARunnerCharacter::ActivateButton);
 

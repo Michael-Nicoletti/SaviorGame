@@ -14,7 +14,7 @@ AArcherCharacter::AArcherCharacter()
 	Hand->AttachTo(RootComponent);
 	Hand->RelativeLocation = FVector(100, 0, 0);
 
-	GunOffset = FVector(0.0f, 10.0f, 30.f);
+	GunOffset = FVector(0.0f, 10.0f, 40.f);
 	//Fix offset for arrows
 
 	BowPlacementOffset = FVector(44.5f, -2.5f, 2.7f);
@@ -65,7 +65,7 @@ void AArcherCharacter::SetupPlayerInputComponent(class UInputComponent* InputCom
 void AArcherCharacter::FOV()
 {
 	UCameraComponent* cam = AArcherCharacter::GetFirstPersonCameraComponent();
-	cam->FieldOfView = 30;
+	cam->FieldOfView = 40;
 }
 
 void AArcherCharacter::FOVNorm()
