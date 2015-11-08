@@ -34,4 +34,9 @@ public:
 private:
 
 	float speedPower;
+
+
+protected:
+	UFUNCTION()
+		virtual void OnActorOverlap(AActor* OtherActor);
 };

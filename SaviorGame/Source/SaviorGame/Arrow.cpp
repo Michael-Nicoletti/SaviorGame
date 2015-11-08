@@ -3,6 +3,7 @@
 #include "SaviorGame.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "ArcherCharacter.h"
+#include "EnemySpawner.h"
 #include "Arrow.h"
 
 
@@ -33,7 +34,9 @@ AArrow::AArrow()
 	ProjectileMovement->bRotationFollowsVelocity = true;
 	ProjectileMovement->bShouldBounce = false;
 
-	
+	OnActorBeginOverlap.AddDynamic(this, &AArrow::OnActorOverlap);
+
+	InitialLifeSpan = 60.0f;
 }
 
 // Called when the game starts or when spawned
@@ -51,3 +54,13 @@ void AArrow::Tick( float DeltaTime )
 
 }
 
+void AArrow::OnActorOverlap(AActor* OtherActor)
+{
+	if (OtherActor != GetOwner())
+	{
+		this->Destroy();
+		OtherActor->Destroy();
+		AActor* enemySpawnerRef = ((ASaviorAICharacter*)OtherActor)->spawnerOrigin;
+		((AEnemySpawner*)enemySpawnerRef)->isDead = true;
+	}
+}
