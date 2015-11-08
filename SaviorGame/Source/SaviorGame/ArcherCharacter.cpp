@@ -1,7 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "SaviorGame.h"
-#include "Arrow.h"
 #include "ArcherCharacter.h"
 
 
@@ -15,7 +14,7 @@ AArcherCharacter::AArcherCharacter()
 	Hand->AttachTo(RootComponent);
 	Hand->RelativeLocation = FVector(100, 0, 0);
 
-	GunOffset = FVector(100.0f, 30.0f, 10.0f);
+	GunOffset = FVector(0.0f, 10.0f, 30.f);
 	//Fix offset for arrows
 }
 
@@ -28,6 +27,7 @@ void AArcherCharacter::BeginPlay()
 	{
 		EquipWeapon(DefaultWeaponClass);
 	}
+	maxChargeTime = 3.f;
 }
 
 // Called every frame
@@ -35,6 +35,17 @@ void AArcherCharacter::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
 
+		currentChargeTime += DeltaTime;
+		
+		if (currentChargeTime > 2)
+		{
+			if (isWeaponCharging)
+			{
+				FireBow();
+				currentChargeTime = 0;
+			}
+		}
+			//chargePower = 4000.f;
 }
 
 // Called to bind functionality to input
@@ -43,12 +54,36 @@ void AArcherCharacter::SetupPlayerInputComponent(class UInputComponent* InputCom
 	Super::SetupPlayerInputComponent(InputComponent);
 	check(InputComponent);
 
-	InputComponent->BindAction("Fire", IE_Pressed, this, &AArcherCharacter::OnFire);
+	InputComponent->BindAction("Fire", IE_Pressed, this, &AArcherCharacter::MouseDown);
+	InputComponent->BindAction("Fire", IE_Released, this, &AArcherCharacter::MouseUp);
+	InputComponent->BindAction("Zoom", IE_Pressed, this, &AArcherCharacter::FOV);
+	InputComponent->BindAction("Zoom", IE_Released, this, &AArcherCharacter::FOVNorm);
 }
 
-void AArcherCharacter::OnFire()
+void AArcherCharacter::FOV()
 {
-	// try and fire a projectile
+	UCameraComponent* cam = AArcherCharacter::GetFirstPersonCameraComponent();
+	cam->FieldOfView = 30;
+}
+
+void AArcherCharacter::FOVNorm()
+{
+	UCameraComponent* cam = AArcherCharacter::GetFirstPersonCameraComponent();
+	cam->FieldOfView = 90;
+}
+
+void AArcherCharacter::MouseDown()
+{
+	isWeaponCharging = true;
+}
+
+void AArcherCharacter::MouseUp()
+{
+	isWeaponCharging = false;
+}
+
+void AArcherCharacter::FireBow()
+{
 	if (ProjectileClass != NULL)
 	{
 		const FRotator SpawnRotation = GetControlRotation();
@@ -58,9 +93,9 @@ void AArcherCharacter::OnFire()
 		UWorld* const World = GetWorld();
 		if (World != NULL)
 		{
-			// spawn the projectile at the muzzle
 			World->SpawnActor<AArrow>(ProjectileClass, SpawnLocation, SpawnRotation);
 		}
+		isWeaponCharging = false;
 	}
 }
 

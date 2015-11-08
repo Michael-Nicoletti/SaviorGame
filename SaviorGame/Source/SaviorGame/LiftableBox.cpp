@@ -58,12 +58,10 @@ void ALiftableBox::Interact(AActor* Interactor)
 	}
 	else
 	{
-		if (this->GetActorLocation().Z < Interactor->GetActorLocation().Z)
-		{
-			Collider->SetSimulatePhysics(false);
+		Collider->SetSimulatePhysics(false);
 
-			this->AttachRootComponentTo(Cast<ARunnerCharacter>(Interactor)->GetHand(), NAME_None, EAttachLocation::SnapToTarget);
-		}
+		this->AttachRootComponentTo(Cast<ARunnerCharacter>(Interactor)->GetHand(), NAME_None, EAttachLocation::SnapToTarget);
+
 	}
 }
 

@@ -9,7 +9,7 @@
 ASaviorGameHUD::ASaviorGameHUD()
 {
 	// Set the crosshair texture
-	static ConstructorHelpers::FObjectFinder<UTexture2D> CrosshiarTexObj(TEXT("Texture2D'/Game/crosshair.crosshair'"));
+	static ConstructorHelpers::FObjectFinder<UTexture2D> CrosshiarTexObj(TEXT("/Game/ArcherCrosshairtestv7.ArcherCrosshairtestv7"));
 	CrosshairTex = CrosshiarTexObj.Object;
 }
 

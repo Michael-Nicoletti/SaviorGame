@@ -5,6 +5,14 @@
 #include "GameFramework/Character.h"
 #include "SaviorAICharacter.generated.h"
 
+
+//UENUM(BlueprintType)
+//enum class EModeEnum : uint8
+//{
+//	VE_Rotate	UMETA(DisplayName = "Rotate"),
+//	VE_Patrol	UMETA(DisplayName = "Patrol"),
+//	VE_Attack	UMETA(DisplayName = "Attack")
+//};
 UCLASS()
 class SAVIORGAME_API ASaviorAICharacter : public ACharacter
 {
@@ -24,4 +32,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* AIMesh;
 
+//	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Enum)
+//		EModeEnum AIMode;
 };
