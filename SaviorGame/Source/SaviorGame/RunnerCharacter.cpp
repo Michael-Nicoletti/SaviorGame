@@ -2,6 +2,7 @@
 
 #include "SaviorGame.h"
 #include "Interactable.h"
+#include "RunnerAnimInstance.h"
 #include "RunnerCharacter.h"
 
 
@@ -13,7 +14,6 @@ ARunnerCharacter::ARunnerCharacter()
 
 	baseCrouchMoveSpeed = this->GetCharacterMovement()->MaxWalkSpeedCrouched;
 	baseBrakeDeceleration = this->GetCharacterMovement()->BrakingDecelerationWalking;
-	baseCameraPosition = GetFirstPersonCameraComponent()->GetComponentLocation();
 
 	this->GetCharacterMovement()->MaxWalkSpeed = 1200;
 	this->CrouchedEyeHeight = 2;
@@ -35,7 +35,9 @@ ARunnerCharacter::ARunnerCharacter()
 // Called when the game starts or when spawned
 void ARunnerCharacter::BeginPlay()
 {
-	Super::BeginPlay();	
+	Super::BeginPlay();
+
+	baseCameraPosition = GetFirstPersonCameraComponent()->RelativeLocation;
 }
 
 // Called every frame
@@ -47,7 +49,7 @@ void ARunnerCharacter::Tick( float DeltaTime )
 	bool bTraceSuccess = TraceFromSelf(OutHit, 1000.f, ECollisionChannel::ECC_EngineTraceChannel1);
 	if (!bTraceSuccess && bIsCrouched == false)
 	{
-		GetFirstPersonCameraComponent()->SetRelativeLocation(FVector(0, 0, 64));
+		GetFirstPersonCameraComponent()->SetRelativeLocation(baseCameraPosition);
 	}
 
 	if (isSliding)
@@ -63,8 +65,9 @@ void ARunnerCharacter::Tick( float DeltaTime )
 	GEngine->AddOnScreenDebugMessage(2, 1.f, FColor::Red, FString::Printf(TEXT("%f"), this->CrouchedEyeHeight));
 	GEngine->AddOnScreenDebugMessage(1, 1.f, FColor::Red, FString::Printf(TEXT("Braking Friction = %f"), this->GetCharacterMovement()->BrakingFriction));
 	GEngine->AddOnScreenDebugMessage(3, 1.f, FColor::Red, FString::Printf(TEXT("Ground Friction = %f"), this->GetCharacterMovement()->GroundFriction));
-	GEngine->AddOnScreenDebugMessage(5, 1.f, FColor::Red, FString::Printf(TEXT("Ground Friction = %f"), GetFirstPersonCameraComponent()->GetComponentLocation().Z));
+	GEngine->AddOnScreenDebugMessage(5, 1.f, FColor::Red, FString::Printf(TEXT("Camera Height = %f"), GetFirstPersonCameraComponent()->GetComponentLocation().Z));
 	GEngine->AddOnScreenDebugMessage(4, 1.f, FColor::Green, FString::Printf(TEXT("Slide Timer : %f"), SlideTimer));
+	GEngine->AddOnScreenDebugMessage(6, 1.f, FColor::Green, FString::Printf(TEXT("Player Enabled Slide : %i"), Cast<URunnerAnimInstance>(GetMesh1P()->GetAnimInstance())->bPlayerEnabledSlide));
 }
 
 // Called to bind functionality to input
@@ -132,6 +135,10 @@ void ARunnerCharacter::StartCrouch()
 	this->Crouch();
 	if (this->GetVelocity().Size() > 600.f)
 	{
+		URunnerAnimInstance* AnimInstance = Cast<URunnerAnimInstance>(GetMesh1P()->GetAnimInstance());
+		if (AnimInstance)
+			AnimInstance->bPlayerEnabledSlide = true;
+		
 		isSliding = true;
 		this->GetCharacterMovement()->MaxWalkSpeedCrouched = 600;
 		this->GetCharacterMovement()->GroundFriction = 0;
@@ -143,6 +150,11 @@ void ARunnerCharacter::StartCrouch()
 void ARunnerCharacter::EndCrouch()
 {
 	this->UnCrouch();
+	
+	URunnerAnimInstance* AnimInstance = Cast<URunnerAnimInstance>(GetMesh1P()->GetAnimInstance());
+	if (AnimInstance)
+		AnimInstance->bPlayerEnabledSlide = false;
+
 	this->GetCharacterMovement()->MaxWalkSpeedCrouched = baseCrouchMoveSpeed;
 	this->GetCharacterMovement()->GroundFriction = 8;
 	this->GetCharacterMovement()->BrakingFriction = 0;
