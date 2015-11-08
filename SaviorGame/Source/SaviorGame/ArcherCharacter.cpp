@@ -16,6 +16,8 @@ AArcherCharacter::AArcherCharacter()
 
 	GunOffset = FVector(0.0f, 10.0f, 30.f);
 	//Fix offset for arrows
+
+	BowPlacementOffset = FVector(44.5f, -2.5f, 2.7f);
 }
 
 // Called when the game starts or when spawned
@@ -117,6 +119,7 @@ void AArcherCharacter::EquipWeapon(TSubclassOf<AWeapon> WeaponType)
 	EquippedWeapon = GetWorld()->SpawnActor<AWeapon>(WeaponType, GetActorLocation(), FRotator::ZeroRotator, SpawnParameters);
 
 	//Attaches the eqipped weapon to the right hand within the returned object from GetMesh()
-	EquippedWeapon->AttachRootComponentTo(Hand, NAME_None, EAttachLocation::SnapToTarget);
+	EquippedWeapon->AttachRootComponentTo(this->GetFirstPersonCameraComponent(), NAME_None, EAttachLocation::SnapToTarget);
+	EquippedWeapon->SetActorRelativeLocation(BowPlacementOffset);
 
 }
