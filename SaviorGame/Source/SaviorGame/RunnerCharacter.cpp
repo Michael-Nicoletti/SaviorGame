@@ -67,7 +67,7 @@ void ARunnerCharacter::Tick( float DeltaTime )
 	GEngine->AddOnScreenDebugMessage(3, 1.f, FColor::Red, FString::Printf(TEXT("Ground Friction = %f"), this->GetCharacterMovement()->GroundFriction));
 	GEngine->AddOnScreenDebugMessage(5, 1.f, FColor::Red, FString::Printf(TEXT("Camera Height = %f"), GetFirstPersonCameraComponent()->GetComponentLocation().Z));
 	GEngine->AddOnScreenDebugMessage(4, 1.f, FColor::Green, FString::Printf(TEXT("Slide Timer : %f"), SlideTimer));
-	GEngine->AddOnScreenDebugMessage(6, 1.f, FColor::Green, FString::Printf(TEXT("Player Enabled Slide : %i"), Cast<URunnerAnimInstance>(GetMesh1P()->GetAnimInstance())->bPlayerEnabledSlide));
+	//GEngine->AddOnScreenDebugMessage(6, 1.f, FColor::Green, FString::Printf(TEXT("Player Enabled Slide : %i"), Cast<URunnerAnimInstance>(GetMesh1P()->GetAnimInstance())->bPlayerEnabledSlide));
 }
 
 // Called to bind functionality to input
