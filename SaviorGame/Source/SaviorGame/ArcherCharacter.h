@@ -39,6 +39,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	FVector GunOffset;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	FVector BowPlacementOffset;
+
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 	TSubclassOf<AArrow> ProjectileClass;
 

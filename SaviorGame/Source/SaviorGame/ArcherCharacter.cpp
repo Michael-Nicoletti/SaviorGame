@@ -15,8 +15,9 @@ AArcherCharacter::AArcherCharacter(const class FObjectInitializer& ObjectInitial
 	Hand->AttachTo(RootComponent);
 	Hand->RelativeLocation = FVector(100, 0, 0);
 
-	GunOffset = FVector(0.0f, 10.0f, 30.f);
+	GunOffset = FVector(0.0f, 10.0f, 40.f);
 	//Fix offset for arrows
+	BowPlacementOffset = FVector(44.5f, -2.5f, 2.7f);
 
 }
 
@@ -65,7 +66,7 @@ void AArcherCharacter::SetupPlayerInputComponent(class UInputComponent* InputCom
 void AArcherCharacter::FOV()
 {
 	UCameraComponent* cam = AArcherCharacter::GetFirstPersonCameraComponent();
-	cam->FieldOfView = 30;
+	cam->FieldOfView = 40;
 }
 
 void AArcherCharacter::FOVNorm()
@@ -119,6 +120,7 @@ void AArcherCharacter::EquipWeapon(TSubclassOf<AWeapon> WeaponType)
 	EquippedWeapon = GetWorld()->SpawnActor<AWeapon>(WeaponType, GetActorLocation(), FRotator::ZeroRotator, SpawnParameters);
 
 	//Attaches the eqipped weapon to the right hand within the returned object from GetMesh()
-	EquippedWeapon->AttachRootComponentTo(Hand, NAME_None, EAttachLocation::SnapToTarget);
+	EquippedWeapon->AttachRootComponentTo(this->GetFirstPersonCameraComponent(), NAME_None, EAttachLocation::SnapToTarget);
+	EquippedWeapon->SetActorRelativeLocation(BowPlacementOffset);
 
 }

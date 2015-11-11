@@ -45,9 +45,6 @@ void ASaviorGameCharacter::SetupPlayerInputComponent(class UInputComponent* Inpu
 {
 	// set up gameplay key bindings
 	check(InputComponent);
-
-	InputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
-	InputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 	
 	InputComponent->BindAxis("MoveForward", this, &ASaviorGameCharacter::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &ASaviorGameCharacter::MoveRight);
