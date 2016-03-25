@@ -5,8 +5,7 @@
 
 
 // Sets default values
-AArcherCharacter::AArcherCharacter(const class FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer)
+AArcherCharacter::AArcherCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -17,8 +16,11 @@ AArcherCharacter::AArcherCharacter(const class FObjectInitializer& ObjectInitial
 
 	GunOffset = FVector(0.0f, 10.0f, 40.f);
 	//Fix offset for arrows
+<<<<<<< HEAD
 	BowPlacementOffset = FVector(44.5f, -2.5f, 2.7f);
 
+=======
+>>>>>>> parent of 1f7e60f... Tony_CMT_IDK_v1.61_Eff
 }
 
 // Called when the game starts or when spawned

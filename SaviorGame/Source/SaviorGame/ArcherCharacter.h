@@ -15,7 +15,7 @@ class SAVIORGAME_API AArcherCharacter : public ASaviorGameCharacter
 
 public:
 	// Sets default values for this character's properties
-	AArcherCharacter(const class FObjectInitializer& ObjectInitializer);
+	AArcherCharacter();
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -44,10 +44,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 	TSubclassOf<AArrow> ProjectileClass;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	APlayerStart* archerStart;
-
+	
 protected:
 	//Creates a default weapon subclass and then creates a pointer of type our weapon class.
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

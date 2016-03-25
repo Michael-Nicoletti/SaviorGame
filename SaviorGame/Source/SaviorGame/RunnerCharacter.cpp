@@ -7,8 +7,7 @@
 
 
 // Sets default values
-ARunnerCharacter::ARunnerCharacter(const class FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer)
+ARunnerCharacter::ARunnerCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -30,6 +29,7 @@ ARunnerCharacter::ARunnerCharacter(const class FObjectInitializer& ObjectInitial
 	Hand->AttachTo(RootComponent);
 	Hand->RelativeLocation = FVector(100, 0, 0);
 	//BOX PICKUP CODE//
+
 }
 
 // Called when the game starts or when spawned
